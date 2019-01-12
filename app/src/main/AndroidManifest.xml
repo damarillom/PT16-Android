@@ -20,6 +20,7 @@
         </activity>
         <activity android:name=".ListViewRec" />
         <activity android:name=".ExempleSQLLite" />
+        <activity android:name=".MapboxAct" />
     </application>
 
 </manifest>
