@@ -9,4 +9,10 @@
         <item>Menja avellanes</item>
         <item>Nocilla</item>
     </string-array>
+
+    <string-array name="opcions">
+        <item>Buscar por ciudad</item>
+        <item>Mostrar en el mapa</item>
+
+    </string-array>
 </resources>

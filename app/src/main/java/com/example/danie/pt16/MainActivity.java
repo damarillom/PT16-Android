@@ -14,8 +14,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,7 +45,8 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity implements
+        AdapterView.OnItemSelectedListener {
 
     Button boto, botoDesc;
     private RecyclerView recyclerView;
@@ -57,6 +63,47 @@ public class MainActivity extends AppCompatActivity  {
     private EditText editTextCity;
     private int DATASET_COUNT = 60;
     private Button butJ, butX;
+    private Spinner spinner;
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        // Log.d("test", "onItemSelected: entra");
+
+        try {
+
+            switch (position){
+                case 0:
+                    try {
+                        openWeather(false);
+                    } catch (XmlPullParserException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case 1:
+
+                    //Intent inte = new Intent(getBaseContext(), MapboxAct.class);
+                    //startActivityForResult(inte,0);
+
+            }
+
+            String value=(String) parent.getItemAtPosition(position);
+            Toast.makeText(MainActivity.this, "Posició:" +position + " Valor: " + value, Toast.LENGTH_SHORT).show();
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("test", "onItemSelected: "+e.getMessage());
+        }
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +138,16 @@ public class MainActivity extends AppCompatActivity  {
                 }
             }
         });
+
+        spinner = (Spinner) findViewById(R.id.spinner2);
+        ArrayAdapter adapter = ArrayAdapter.createFromResource(this,
+                R.array.opcions, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+
+
+        spinner.setOnItemSelectedListener(this);
 
         String estat=Environment.getExternalStorageState();
         // comprova si hi ha SD i si puc escriure en ella
