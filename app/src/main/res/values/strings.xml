@@ -13,7 +13,7 @@
     <string-array name="opcions">
         <item>Buscar por ciudad</item>
         <item>Mostrar en el mapa</item>
-
+        <item>--------------------</item>
     </string-array>
     <string name="token" >
         "pk.eyJ1IjoiZWJhcmJlaXRvIiwiYSI6ImNqcHUzd3k1bzAzang0OHFydmZ4Nnloa3cifQ.dd2vH9KxslMdsyjgtEUQtw"
