@@ -6,13 +6,14 @@ public class Temp {
         private String tempe;
         private String imatge;
         private String humidity;
+        private String press;
 
-
-    public Temp(String data, String tempe, String imatge, String humid) {
+    public Temp(String data, String tempe, String imatge, String humid, String press) {
         this.data = data;
         this.tempe = tempe;
         this.imatge = imatge;
         this.humidity=humid;
+        this.press=press;
 
     }
 
@@ -46,5 +47,13 @@ public class Temp {
 
     public void setImatge(String imatge) {
         this.imatge = imatge;
+    }
+
+    public String getPress() {
+        return press;
+    }
+
+    public void setPress(String press) {
+        this.press = press;
     }
 }

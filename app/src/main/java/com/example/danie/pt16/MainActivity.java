@@ -91,6 +91,15 @@ public class MainActivity extends AppCompatActivity implements
 
             switch (position){
                 case 0:
+                    /**try {
+                        openWeather(false,Float.parseFloat("0"),Float.parseFloat("0"));
+                        //openWeather(false);
+                    } catch (XmlPullParserException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }*/
+
                     try {
                         openWeather(false,Float.parseFloat("0"),Float.parseFloat("0"));
                         //openWeather(false);
@@ -294,14 +303,14 @@ public class MainActivity extends AppCompatActivity implements
                     if (!JSonFormat) {
                         temps = pars.parsejaXml(result);
                         //List<Temp> model = new ArrayList<>();
-                        Temp temp = new Temp("dataProvaThoraprova", "22", "hot", "100");
+                        Temp temp = new Temp("dataProvaThoraprova", "22", "hot", "100", "100");
                         //model.add(temp);
                         temps.add(temp);
                     } else {
                         //Log.d("test", "openWeather,entra parsejaJSon ");
 
                         temps = pars.parsejaJSon(result);
-                        Temp temp = new Temp("dataProva horaprova", "22", "hot", "100");
+                        Temp temp = new Temp("dataProva horaprova", "22", "hot", "100", "100");
                         temps.add(temp);
                     }
 
@@ -330,14 +339,14 @@ public class MainActivity extends AppCompatActivity implements
                     if (!JSonFormat) {
                         temps = pars.parsejaXml(result);
                         //List<Temp> model = new ArrayList<>();
-                        Temp temp = new Temp("dataProvaThoraprova", "22", "hot", "100");
+                        Temp temp = new Temp("dataProvaThoraprova", "22", "hot", "100", "100");
                         //model.add(temp);
                         temps.add(temp);
                     } else {
                         //Log.d("test", "openWeather,entra parsejaJSon ");
 
                         temps = pars.parsejaJSon(result);
-                        Temp temp = new Temp("dataProva horaprova", "22", "hot", "100");
+                        Temp temp = new Temp("dataProva horaprova", "22", "hot", "100", "100");
                         temps.add(temp);
                     }
 

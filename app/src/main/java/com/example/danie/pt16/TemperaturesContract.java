@@ -8,12 +8,14 @@ public class TemperaturesContract {
     }
 
     public static final String TABLE_NAME = "openWeather";
+    public static final String NOMBRE_COLUMNA_ACCESO = "LastModified";
     public static final String NOMBRE_COLUMNA_NOMCIUTAT = "Nom";
     public static final String NOMBRE_COLUMNA_HORES = "Hores";
     public static final String NOMBRE_COLUMNA_TEMPS = "Temps";
 
 
     public static final String SQL_CREATE_ENTRIES = "CREATE TABLE " + TemperaturesContract.TABLE_NAME + " (" +
+            TemperaturesContract.NOMBRE_COLUMNA_ACCESO + " TEXT," +
             TemperaturesContract.NOMBRE_COLUMNA_NOMCIUTAT + " TEXT," +
             TemperaturesContract.NOMBRE_COLUMNA_HORES + " TEXT,"+
             TemperaturesContract.NOMBRE_COLUMNA_TEMPS + " TEXT)";

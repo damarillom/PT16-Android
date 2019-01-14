@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -40,11 +41,37 @@ public class TemperaturesHelper2 extends SQLiteOpenHelper {
         //db.query...
 
         //if (cursor.moveToFirst() és fals, o altres maneres...
-            return false;
+        return false;
 
     }
 
+    //FUNCION QUE DEVUELVE FECHAACTUAL
+    public String fechaActual() {
+
+        try {
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String fecha = dateFormat.format(new Date());
+
+            return fecha;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return null;
+        }
+    }
+
+    //AQUI RELLENA LOS VALORES EN LA TABLA
     public void guarda(String nomCiutat, List<Temp> blocs) throws ParseException {
+
+        /*Date fechanow = new Date();
+        SimpleDateFormat actual = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            String fechaActual = actual.format(new Date());
+            fechanow = actual.parse(fechaActual);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }*/
 
         SQLiteDatabase db = this.getWritableDatabase();
         //blocs = new ModificaDadesGuardarBDD(blocs).formatearParaBDD();
@@ -52,6 +79,7 @@ public class TemperaturesHelper2 extends SQLiteOpenHelper {
         ContentValues values = null;
         for (int i = 0; i < blocs.size(); i++) {
             values = new ContentValues();
+            values.put(TemperaturesContract.NOMBRE_COLUMNA_ACCESO, String.valueOf(fechaActual()));
             values.put(TemperaturesContract.NOMBRE_COLUMNA_NOMCIUTAT, nomCiutat);
             values.put(TemperaturesContract.NOMBRE_COLUMNA_HORES, blocs.get(i).getData());
             values.put(TemperaturesContract.NOMBRE_COLUMNA_TEMPS, blocs.get(i).getTempe().replace(",","."));
@@ -59,6 +87,8 @@ public class TemperaturesHelper2 extends SQLiteOpenHelper {
             db.insert(TemperaturesContract.TABLE_NAME, null, values);
         }
     }
+
+
 
     public List<Temp> llegeix(String nomCiutat) throws ParseException {
 
@@ -68,6 +98,7 @@ public class TemperaturesHelper2 extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String[] projection = {
+                TemperaturesContract.NOMBRE_COLUMNA_ACCESO,
                 TemperaturesContract.NOMBRE_COLUMNA_NOMCIUTAT,
                 TemperaturesContract.NOMBRE_COLUMNA_HORES,
                 TemperaturesContract.NOMBRE_COLUMNA_TEMPS
@@ -89,7 +120,7 @@ public class TemperaturesHelper2 extends SQLiteOpenHelper {
             } else {
                 calorFred="cold";
             }
-            ciutat=new Temp(hora,temperatura,calorFred,"");
+            ciutat=new Temp(hora,temperatura,calorFred,"", "");
             mostrar.add(ciutat);
         }
         cursor.close();
@@ -97,6 +128,7 @@ public class TemperaturesHelper2 extends SQLiteOpenHelper {
         return mostrar;
 
     }
+
 
     public boolean estaActualitzada(String nomCiutat) throws ParseException {
 
@@ -106,17 +138,70 @@ public class TemperaturesHelper2 extends SQLiteOpenHelper {
         Date fechanow = new Date();
 
 
-        return true;
+        SimpleDateFormat actual = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            String fechaActual = actual.format(new Date());
+            fechanow = actual.parse(fechaActual);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        SimpleDateFormat ultimaHora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+
+            //String query = "SELECT * FROM LastModified;";
+            //db.execSQL(query);
+            Cursor c = db.rawQuery(" SELECT * FROM LastModified ", null);
+
+            if (c != null) {
+                do {
+                    String date = c.getString(c.getColumnIndex("LastModified"));
+                    if (date.equals(fechanow)) db.delete("LastModified", null, null);
+                }while (c.moveToNext());
+            }
+            //db.execSQL("SELECT * from LastModified );
+            fechaBBDD = ultimaHora.parse(hora);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if(fechanow.compareTo(fechaBBDD)>0){
+            return false;
+        }else{
+            return  true;
+        }
+
 
     }
 
 
+
+
+
+    /*public void eliminaDades(String nomCiutat) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+
+        String table = "Nom";
+        String whereClause = "Nom = '"+nomCiutat+"'";
+        //String[] whereArgs = new String[] { String.valueOf(row) };
+        //db.delete(table, whereClause, whereArgs);
+
+
+
+
+        //db.delete...
+    }*/
     public void eliminaDades(String nomCiutat) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
 
+        String selection = TemperaturesContract.NOMBRE_COLUMNA_NOMCIUTAT + " = ?";
 
-        //db.delete...
+        String[] selectionArgs = {nomCiutat};
+
+        db.delete(TemperaturesContract.TABLE_NAME, selection, selectionArgs);
     }
 }

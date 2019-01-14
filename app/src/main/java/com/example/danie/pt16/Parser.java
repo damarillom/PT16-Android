@@ -25,6 +25,7 @@ public class Parser extends AppCompatActivity {
         String calorFred = null;
         Temp temp;
         String humid=null;
+        String press=null;
 
         List<Temp> llista = new ArrayList<Temp>();
         String direccion="";
@@ -47,6 +48,8 @@ public class Parser extends AppCompatActivity {
                     //temperature = resultJSON.getJSONObject(i).getString("main");
                     temperature = resultJSON.getJSONObject(i).getJSONObject("main").getString("temp");
 
+                    press = resultJSON.getJSONObject(i).getJSONObject("main").getString("pressure");
+
                     time = resultJSON.getJSONObject(i).getString("dt_txt");
                     if (temperature != null) {
                         if (Double.parseDouble(temperature) >= 20) {
@@ -56,8 +59,8 @@ public class Parser extends AppCompatActivity {
                         }
                     }
 
-                    temp = new Temp(time, temperature, calorFred, humid);
-                    Log.d("test", "bloc " + String.valueOf(i) + " " + time + " " + temperature + " " + humid + " " + calorFred);
+                    temp = new Temp(time, temperature, calorFred, humid, press);
+                    Log.d("test", "bloc " + String.valueOf(i) + " " + time + " " + temperature + " " + humid + " " + calorFred + " " + press);
                     llista.add(temp);
                     time = null;
                     temperature = null;
@@ -81,7 +84,7 @@ public class Parser extends AppCompatActivity {
 
         String time = null;
         String temperature = null;
-        String calorFred = null, humid=null;
+        String calorFred = null, humid=null, press = null;
         Temp temp;
 
         List<Temp> llista = new ArrayList<Temp>();
@@ -109,6 +112,10 @@ public class Parser extends AppCompatActivity {
                     humid = xpp.getAttributeValue(null, "value");
                 }
 
+                if (xpp.getName().equals("pressure")) {
+                    press = xpp.getAttributeValue(null, "value");
+                }
+
                 if (temperature != null) {
                     if (Double.parseDouble(temperature) >= 20) {
                         calorFred = "hot";
@@ -120,7 +127,7 @@ public class Parser extends AppCompatActivity {
                 if (time != null && temperature != null) {
                     try {
                         time = time.replace   ("T"," ");
-                        temp = new Temp(time, temperature, calorFred,humid);
+                        temp = new Temp(time, temperature, calorFred,humid,press);
                         Log.d("test", "parsejant "+time+temperature+calorFred+humid);
                         llista.add(temp);
                         time=null;
