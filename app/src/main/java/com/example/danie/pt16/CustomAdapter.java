@@ -113,7 +113,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         else
             holder.imatge.setImageResource(R.drawable.ic_action_sun);
 
-        holder.tempe.setText("Temp: " + name.getTempe() + "ªC, humidity:" + name.getHumidity() );
+        holder.tempe.setText("Temp: " + name.getTempe() + "ªC, humidity:" + name.getHumidity() + " Pressure: " + name.getPress());
 
     }
 
