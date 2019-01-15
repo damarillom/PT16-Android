@@ -3,9 +3,11 @@ package com.example.danie.pt16;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -47,7 +49,7 @@ import java.util.concurrent.ExecutionException;
 
 
 public class MainActivity extends AppCompatActivity implements
-        AdapterView.OnItemSelectedListener {
+        AdapterView.OnItemSelectedListener, CityFragment.OnFragmentInteractionListener {
 
     Button boto, botoDesc;
     private RecyclerView recyclerView;
@@ -149,6 +151,14 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Fragment fragment = new CityFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("ciudad", "Barcelona");
+        fragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment, fragment).addToBackStack(null).commit();
+
+
         Toolbar toolbar=(Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         textView= (TextView) findViewById(R.id.textView);
@@ -263,7 +273,20 @@ public class MainActivity extends AppCompatActivity implements
     //public void openWeather(Boolean JSonFormat) throws XmlPullParserException, JSONException {
     public void openWeather(Boolean JSonFormat, Float lat, Float lon) throws XmlPullParserException, JSONException {
         String nomCiutat;
-        city= editTextCity.getText().toString();
+        city = editTextCity.getText().toString();
+
+        Fragment fragment = new CityFragment();
+        Bundle bundle = new Bundle();
+        try {
+
+            bundle.putString("ciudad", city+":");
+            fragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment, fragment).addToBackStack(null).commit();
+        } catch (Exception e) {
+
+        }
+
+
         if (!city.isEmpty()) nomCiutat=city;
         else nomCiutat="Petropavlovsk";
 
@@ -279,7 +302,18 @@ public class MainActivity extends AppCompatActivity implements
         else
             if (lat!=0.0) {
 
+
+
+
                 editTextCity.setText("Seleccionat a mapa: Latitud:" + lat +", Longitud:" + lon);
+                try {
+                    bundle.putString("ciudad", "Coordenadas:");
+                    fragment.setArguments(bundle);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment, fragment).addToBackStack(null).commitAllowingStateLoss();
+                    Log.d("Hola", "hola");
+                } catch (Exception e) {
+                    Log.d("Hola", "error: " + e);
+                }
                 Log.d("Mapa", "openWeather: " +lat + "-" +lon);
                 // kelvin degrees: -273.15 celsius
                 myUrl = "http://api.openweathermap.org/data/2.5/forecast?lat=" + lat +
@@ -382,6 +416,11 @@ public class MainActivity extends AppCompatActivity implements
             e.printStackTrace();
             Log.d("test", "openWeather: "+e.getMessage());
         }
+
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
     }
 
