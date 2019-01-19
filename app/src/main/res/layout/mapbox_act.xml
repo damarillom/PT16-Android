@@ -15,27 +15,39 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <Button
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:id="@+id/boto"
-        android:text="Add Checkpoint"/>
-    <Button
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:id="@+id/boto2"
-        android:text="Tornar a Barna"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/boto"
+            android:text="Add Checkpoint"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/boto2"
+            android:text="Go to checkpoint"/>
+
     </LinearLayout>
-<com.mapbox.mapboxsdk.maps.MapView
-    android:id="@+id/mapView"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    mapbox:mapbox_cameraTargetLat="41.3890464"
-    mapbox:mapbox_cameraTargetLng="2.1454964"
-    mapbox:mapbox_styleUrl="mapbox://styles/mapbox/streets-v10"
-    mapbox:mapbox_cameraZoom="11" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/editTextMarker"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="" />
+
+    </LinearLayout>
+    <com.mapbox.mapboxsdk.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        mapbox:mapbox_cameraTargetLat="41.3890464"
+        mapbox:mapbox_cameraTargetLng="2.1454964"
+        mapbox:mapbox_styleUrl="mapbox://styles/mapbox/streets-v10"
+        mapbox:mapbox_cameraZoom="11" />
 
 
 </LinearLayout>

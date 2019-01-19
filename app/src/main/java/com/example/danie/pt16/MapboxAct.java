@@ -10,8 +10,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerViewOptions;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
@@ -30,6 +32,7 @@ public class MapboxAct extends AppCompatActivity {
 
     private boolean marker = false;
 
+    private EditText editTextMarker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try{
@@ -66,14 +69,25 @@ public class MapboxAct extends AppCompatActivity {
             boto2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    CameraPosition position = new CameraPosition.Builder()
+                    editTextMarker = (EditText) findViewById(R.id.editTextMarker);
+                    for (Marker marker: mapboxMap.getMarkers()) {
+                        if (marker.getTitle().equals(editTextMarker.getText().toString())) {
+                            CameraPosition position = new CameraPosition.Builder()
+                                    .target(marker.getPosition())
+                                    .zoom(10)
+                                    .tilt(20)
+                                    .build();
+                            mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(position), 4000);
+                        }
+                    }
+                    /**CameraPosition position = new CameraPosition.Builder()
                             .target(new LatLng(41.3890464, 2.1454964))
                             .zoom(10)
                             .tilt(20)
                             .build();
 //https://www.google.com/maps/place/Colombo,+Sri+Lanka/@6.9218335,79.7861645,12z
 // /data=!3m1!4b1!4m5!3m4!1s0x3ae253d10f7a7003:0x320b2e4d32d3838d!8m2!3d6.9270786!4d79.861243
-                    mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(position), 4000);
+                    mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(position), 4000);*/
                 }
             });
 
@@ -96,9 +110,10 @@ public class MapboxAct extends AppCompatActivity {
                         @Override
                         public void onMapClick(@NonNull LatLng point) {
                             if (marker) {
+                                editTextMarker = (EditText) findViewById(R.id.editTextMarker);
                                 mapboxMap.addMarker(new MarkerViewOptions()
                                         .position(new LatLng(point.getLatitude(), point.getLongitude()))
-                                        .title("Checkpoint"));
+                                        .title(editTextMarker.getText().toString()));
                             } else {
                                 try {
                                     String myUrl = "http://api.openweathermap.org/data/2.5/forecast?lat=" + String.valueOf(point.getLatitude()) +
