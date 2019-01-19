@@ -99,7 +99,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
         //viewHolder.getTextView().setText(mDataSet[position]);
         final Temp name = mDataSet.get(position);
-        holder.data.setText(name.getData());
+        holder.data.setText(name.getData()+" - "+"Temp: " + name.getTempe() + name.getFormatTemperature());
         holder.data.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,7 +113,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         else
             holder.imatge.setImageResource(R.drawable.ic_action_sun);
 
-        holder.tempe.setText("Temp: " + name.getTempe() + "ªC, humidity:" + name.getHumidity() + " Pressure: " + name.getPress());
+        holder.tempe.setText(" humidity:" + name.getHumidity() + " Pressure: " + name.getPress());
 
     }
 

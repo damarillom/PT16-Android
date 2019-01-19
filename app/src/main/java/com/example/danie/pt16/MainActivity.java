@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements
                 Float op2 = data.getExtras().getFloat("Lon");
 
                 Log.d("teste", "onActivityResult: "+String.valueOf(op1)+String.valueOf(op2));
-                openWeather(true,op1,op2);
+                openWeather(true,op1,op2,true);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements
                     }*/
 
                     try {
-                        openWeather(false,Float.parseFloat("0"),Float.parseFloat("0"));
+                        openWeather(false,Float.parseFloat("0"),Float.parseFloat("0"),false);
                         //openWeather(false);
                     } catch (XmlPullParserException e) {
                         e.printStackTrace();
@@ -112,6 +112,17 @@ public class MainActivity extends AppCompatActivity implements
                     }
                     break;
                 case 1:
+                    try {
+                        openWeather(false,Float.parseFloat("0"),Float.parseFloat("0"),true);
+                        //openWeather(false);
+                    } catch (XmlPullParserException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    break;
+                case 2:
 
                     //Intent inte = new Intent(getBaseContext(), MapboxAct.class);
                     //startActivityForResult(inte,0);
@@ -168,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
                 try {
-                    openWeather(true,Float.parseFloat("0"),Float.parseFloat("0"));
+                    openWeather(true,Float.parseFloat("0"),Float.parseFloat("0"),false);
                     //openWeather(true);
                 } catch (XmlPullParserException e) {
                     e.printStackTrace();
@@ -181,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
                 try {
-                    openWeather(false,Float.parseFloat("0"),Float.parseFloat("0"));
+                    openWeather(false,Float.parseFloat("0"),Float.parseFloat("0"),false);
                     //openWeather(false);
                 } catch (XmlPullParserException e) {
                     e.printStackTrace();
@@ -255,7 +266,7 @@ public class MainActivity extends AppCompatActivity implements
             temperaturesHelper.eliminaDades(nomCiutat);
 
             //descàrrega xml /json
-            openWeather(format,Float.parseFloat("0"),Float.parseFloat("0"));
+            openWeather(format,Float.parseFloat("0"),Float.parseFloat("0"),false);
             //openWeather(format);
 
             //temperaturesHelper.guarda(nomCiutat, temps<Bloc>);
@@ -271,7 +282,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     //public void openWeather(Boolean JSonFormat) throws XmlPullParserException, JSONException {
-    public void openWeather(Boolean JSonFormat, Float lat, Float lon) throws XmlPullParserException, JSONException {
+    public void openWeather(Boolean JSonFormat, Float lat, Float lon, boolean format) throws XmlPullParserException, JSONException {
         String nomCiutat;
         city = editTextCity.getText().toString();
 
@@ -336,6 +347,18 @@ public class MainActivity extends AppCompatActivity implements
                     Parser pars = new Parser();
                     if (!JSonFormat) {
                         temps = pars.parsejaXml(result);
+
+                        for (Temp t : temps) {
+                            if (format) {
+
+                                Double f = Double.parseDouble(t.getTempe()) * 9 / 5 + 32;
+                                //String.format("%.2f", f );
+                                t.setTempe(String.format("%.2f", f ));
+                                t.setFormatTemperature("ºF");
+                            } else {
+                                t.setFormatTemperature("ºC");
+                            }
+                        }
                         //List<Temp> model = new ArrayList<>();
                         Temp temp = new Temp("dataProvaThoraprova", "22", "hot", "100", "100");
                         //model.add(temp);
@@ -418,6 +441,8 @@ public class MainActivity extends AppCompatActivity implements
         }
 
     }
+
+
 
     @Override
     public void onFragmentInteraction(Uri uri) {
@@ -629,7 +654,7 @@ public class MainActivity extends AppCompatActivity implements
             else if (id == R.id.openWeather) {
                 //exemple HttpURLConnection
                 //ha de ser crida AsyncTask desde versió 4 Android
-                openWeather(false,Float.parseFloat("0"),Float.parseFloat("0"));
+                openWeather(false,Float.parseFloat("0"),Float.parseFloat("0"),false);
                 //openWeather(false);
                 return true;
 

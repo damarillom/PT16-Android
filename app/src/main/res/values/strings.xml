@@ -11,7 +11,8 @@
     </string-array>
 
     <string-array name="opcions">
-        <item>Buscar por ciudad</item>
+        <item>Buscar por ciudad - Cº</item>
+        <item>Buscar por ciudad - Fº</item>
         <item>Mostrar en el mapa</item>
         <item>--------------------</item>
     </string-array>
