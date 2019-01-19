@@ -83,6 +83,8 @@ public class TemperaturesHelper2 extends SQLiteOpenHelper {
             values.put(TemperaturesContract.NOMBRE_COLUMNA_NOMCIUTAT, nomCiutat);
             values.put(TemperaturesContract.NOMBRE_COLUMNA_HORES, blocs.get(i).getData());
             values.put(TemperaturesContract.NOMBRE_COLUMNA_TEMPS, blocs.get(i).getTempe().replace(",","."));
+            values.put(TemperaturesContract.NOMBRE_COLUMNA_HUMIDITY, blocs.get(i).getHumidity());
+            values.put(TemperaturesContract.NOMBRE_COLUMNA_PRESION, blocs.get(i).getPress());
 
             db.insert(TemperaturesContract.TABLE_NAME, null, values);
         }
@@ -101,7 +103,9 @@ public class TemperaturesHelper2 extends SQLiteOpenHelper {
                 TemperaturesContract.NOMBRE_COLUMNA_ACCESO,
                 TemperaturesContract.NOMBRE_COLUMNA_NOMCIUTAT,
                 TemperaturesContract.NOMBRE_COLUMNA_HORES,
-                TemperaturesContract.NOMBRE_COLUMNA_TEMPS
+                TemperaturesContract.NOMBRE_COLUMNA_TEMPS,
+                TemperaturesContract.NOMBRE_COLUMNA_HUMIDITY,
+                TemperaturesContract.NOMBRE_COLUMNA_PRESION
 
         };
 
