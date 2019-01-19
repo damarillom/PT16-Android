@@ -28,6 +28,8 @@ public class MapboxAct extends AppCompatActivity {
 
     private MapboxMap mapboxMap;
 
+    private boolean marker = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try{
@@ -45,14 +47,19 @@ public class MapboxAct extends AppCompatActivity {
             boto.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    CameraPosition position = new CameraPosition.Builder()
+                    if (marker) {
+                        marker = false;
+                    } else {
+                        marker = true;
+                    }
+                    /**CameraPosition position = new CameraPosition.Builder()
                             .target(new LatLng(6.9218335, 79.7861645))
                             .zoom(10)
                             .tilt(20)
                             .build();
 //https://www.google.com/maps/place/Colombo,+Sri+Lanka/@6.9218335,79.7861645,12z
 // /data=!3m1!4b1!4m5!3m4!1s0x3ae253d10f7a7003:0x320b2e4d32d3838d!8m2!3d6.9270786!4d79.861243
-                    mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(position), 3000);
+                    mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(position), 3000);*/
                 }
             });
             boto2=(Button) findViewById(R.id.boto2);
@@ -74,7 +81,7 @@ public class MapboxAct extends AppCompatActivity {
             // @41.3890464,2.1454964,17z/data=!3m1!4b1!4m5!3m4!1s0x12a4a2847eeed3b5:0xfcbfd60966182d80!8m2!3d41.3890464!4d2.1476851
             mapView.getMapAsync(new OnMapReadyCallback() {
                 @Override
-                public void onMapReady(MapboxMap mapboxMap) {
+                public void onMapReady(final MapboxMap mapboxMap) {
                     MapboxAct.this.mapboxMap=mapboxMap;
                     mapboxMap.addMarker(new MarkerViewOptions()
                             .position(new LatLng(41.3890464, 2.1454964))
@@ -88,29 +95,34 @@ public class MapboxAct extends AppCompatActivity {
                     mapboxMap.addOnMapClickListener(new MapboxMap.OnMapClickListener() {
                         @Override
                         public void onMapClick(@NonNull LatLng point) {
-                            try {
-                                String myUrl = "http://api.openweathermap.org/data/2.5/forecast?lat=" + String.valueOf( point.getLatitude()) +
-                                        "&lon=" + String.valueOf(point.getLongitude()) + "&appid=" + API_KEY;
+                            if (marker) {
+                                mapboxMap.addMarker(new MarkerViewOptions()
+                                        .position(new LatLng(point.getLatitude(), point.getLongitude()))
+                                        .title("Checkpoint"));
+                            } else {
+                                try {
+                                    String myUrl = "http://api.openweathermap.org/data/2.5/forecast?lat=" + String.valueOf(point.getLatitude()) +
+                                            "&lon=" + String.valueOf(point.getLongitude()) + "&appid=" + API_KEY;
 
-                               // Log.d("test", ": "+myUrl);
+                                    // Log.d("test", ": "+myUrl);
 
-                                //Toast.makeText(getBaseContext(),myUrl, Toast.LENGTH_LONG).show();
-                             Intent intent=new Intent(getBaseContext(), MainActivity.class);
-                                /*Bundle bundle=new Bundle();
-                                bundle.putFloat("Lat",Float.parseFloat(String.valueOf(point.getLatitude())));
-                                bundle.putFloat("Lon",Float.parseFloat(String.valueOf(point.getLongitude())));
-                                intent.putExtras(bundle);
-*/
-                                intent.putExtra("Lat",Float.parseFloat(String.valueOf(point.getLatitude())));
-                                intent.putExtra("Lon",Float.parseFloat(String.valueOf(point.getLongitude())));
-                                setResult(RESULT_OK,intent);
-                                Log.d("teste", ": "+myUrl);
+                                    //Toast.makeText(getBaseContext(),myUrl, Toast.LENGTH_LONG).show();
+                                    Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                                    /*Bundle bundle=new Bundle();
+                                    bundle.putFloat("Lat",Float.parseFloat(String.valueOf(point.getLatitude())));
+                                    bundle.putFloat("Lon",Float.parseFloat(String.valueOf(point.getLongitude())));
+                                    intent.putExtras(bundle);
+    */
+                                    intent.putExtra("Lat", Float.parseFloat(String.valueOf(point.getLatitude())));
+                                    intent.putExtra("Lon", Float.parseFloat(String.valueOf(point.getLongitude())));
+                                    setResult(RESULT_OK, intent);
+                                    Log.d("teste", ": " + myUrl);
 
-                                finish();
-
-                                 } catch (Exception e) {
-                                e.printStackTrace();
-                                Log.d("test", "onMapClick: "+e.getMessage());
+                                    finish();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    Log.d("test", "onMapClick: " + e.getMessage());
+                                }
                             }
                         }
                     }) ;
