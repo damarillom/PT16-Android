@@ -17,7 +17,7 @@ public class Temp {
         this.imatge = imatge;
         this.humidity=humid;
         this.press=press;
-        this.formatTemperature = formatTemperature;
+        this.formatTemperature = "ºC";
 
     }
 

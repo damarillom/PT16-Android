@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements
         Toolbar toolbar=(Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         textView= (TextView) findViewById(R.id.textView);
-        butJ =(Button) findViewById(R.id.buttonJ);
+        /*butJ =(Button) findViewById(R.id.buttonJ);
         butX =(Button) findViewById(R.id.buttonX);
         butJ.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -200,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements
                     e.printStackTrace();
                 }
             }
-        });
+        });*/
 
         spinner = (Spinner) findViewById(R.id.spinner2);
         ArrayAdapter adapter = ArrayAdapter.createFromResource(this,
