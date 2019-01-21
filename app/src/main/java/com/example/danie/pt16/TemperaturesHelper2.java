@@ -169,7 +169,7 @@ public class TemperaturesHelper2 extends SQLiteOpenHelper {
             }
             //db.execSQL("SELECT * from LastModified );
             //fechaBBDD = ultimaHora.parse(hora);
-            //fechaBBDD.setTime(fechaBBDD.getTime() + 30 * 60000);
+            fechaBBDD.setTime(fechaBBDD.getTime() + 30 * 60000);
         } catch (ParseException e) {
             e.printStackTrace();
         }
