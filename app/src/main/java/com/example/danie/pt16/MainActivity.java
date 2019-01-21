@@ -101,7 +101,18 @@ public class MainActivity extends AppCompatActivity implements
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }*/
-
+                    try {
+                        editTextCity=(EditText) findViewById(R.id.editTextCity);
+                        TemperaturesHelper2 temperaturesHelper = new TemperaturesHelper2(this);
+                        //Log.d("PRUEBA", ""+temperaturesHelper.estaActualitzada("Cuenca"));
+                        //Toast.makeText(MainActivity.this, ""+temperaturesHelper.estaActualitzada("Cuenca"), Toast.LENGTH_SHORT).show();
+                        if (!temperaturesHelper.estaActualitzada(editTextCity.getText().toString())) {
+                            temperaturesHelper.eliminaDades(editTextCity.getText().toString());
+                            Toast.makeText(MainActivity.this, "BBDD borrada", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception e) {
+                        Log.d("Error Borrar BBDD: ", ""+e);
+                    }
                     try {
                         openWeather(false,Float.parseFloat("0"),Float.parseFloat("0"),false);
                         //openWeather(false);
@@ -112,6 +123,18 @@ public class MainActivity extends AppCompatActivity implements
                     }
                     break;
                 case 1:
+                    try {
+                        editTextCity=(EditText) findViewById(R.id.editTextCity);
+                        TemperaturesHelper2 temperaturesHelper = new TemperaturesHelper2(this);
+                        //Log.d("PRUEBA", ""+temperaturesHelper.estaActualitzada("Cuenca"));
+                        //Toast.makeText(MainActivity.this, ""+temperaturesHelper.estaActualitzada("Cuenca"), Toast.LENGTH_SHORT).show();
+                        if (!temperaturesHelper.estaActualitzada(editTextCity.getText().toString())) {
+                            temperaturesHelper.eliminaDades(editTextCity.getText().toString());
+                            Toast.makeText(MainActivity.this, "BBDD borrada", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception e) {
+                        Log.d("Error Borrar BBDD: ", ""+e);
+                    }
                     try {
                         openWeather(false,Float.parseFloat("0"),Float.parseFloat("0"),true);
                         //openWeather(false);
@@ -142,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements
             }
 
             String value=(String) parent.getItemAtPosition(position);
-            Toast.makeText(MainActivity.this, "Posició:" +position + " Valor: " + value, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(MainActivity.this, "Posició:" +position + " Valor: " + value, Toast.LENGTH_SHORT).show();
 
 
 

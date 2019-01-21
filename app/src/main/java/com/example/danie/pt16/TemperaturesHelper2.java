@@ -155,16 +155,21 @@ public class TemperaturesHelper2 extends SQLiteOpenHelper {
 
             //String query = "SELECT * FROM LastModified;";
             //db.execSQL(query);
-            Cursor c = db.rawQuery(" SELECT * FROM LastModified ", null);
+            Cursor c = db.rawQuery(" SELECT * FROM openWeather WHERE nom='"+nomCiutat+"'", null);
 
             if (c != null) {
+                c.moveToFirst();
                 do {
-                    String date = c.getString(c.getColumnIndex("LastModified"));
-                    if (date.equals(fechanow)) db.delete("LastModified", null, null);
+                    if (nomCiutat.equals(c.getString(c.getColumnIndex("Nom")))) {
+                        fechaBBDD = ultimaHora.parse(c.getString(c.getColumnIndex("LastModified")));
+                    }
+                    //String date = c.getString(c.getColumnIndex("LastModified"));
+                    //if (date.equals(fechanow)) db.delete("LastModified", null, null);
                 }while (c.moveToNext());
             }
             //db.execSQL("SELECT * from LastModified );
-            fechaBBDD = ultimaHora.parse(hora);
+            //fechaBBDD = ultimaHora.parse(hora);
+            //fechaBBDD.setTime(fechaBBDD.getTime() + 30 * 60000);
         } catch (ParseException e) {
             e.printStackTrace();
         }
